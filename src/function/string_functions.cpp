@@ -114,6 +114,25 @@ StringFunctions::StrWithLen StringFunctions::Substr(
   return StringFunctions::StrWithLen{str + begin, end - begin + 1};
 }
 
+char* StringFunctions::Upper(
+    executor::ExecutorContext &ctx, const char *str, 
+    const uint32_t str_length) {
+    auto *pool = ctx.GetPool();
+    auto *new_str = reinterpret_cast<char *>(pool->Allocate(str_length));
+    for (uint32_t i = 0; i < str_length; i++) {
+        if(str[i] >= 'a' && str[i] <= 'z') 
+            new_str[i] = str[i] + 'A' - 'a';
+        else 
+            new_str[i] = str[i];
+    } 
+}
+
+char* StringFunctions::Lower(
+    executor::ExecutorContext &ctx, const char *str, 
+    const uint32_t str_length) {
+
+}
+
 StringFunctions::StrWithLen StringFunctions::Repeat(
     executor::ExecutorContext &ctx, const char *str, uint32_t length,
     uint32_t num_repeat) {

@@ -44,6 +44,15 @@ class StringFunctions {
   // Substring
   static StrWithLen Substr(executor::ExecutorContext &ctx, const char *str,
                            uint32_t str_length, int32_t from, int32_t len);
+  // UPPER
+  static char* Upper(executor::ExecutorContext &ctx, const char *str,
+                           const uint32_t str_length);
+  // LOWER
+  static char* Lower(executor::ExecutorContext &ctx, const char *str,
+                           const uint32_t str_length);
+  // CONCAT
+  static StrWithLen Concat(executor::ExecutorContext &ctx, const char **concat_strs,
+                           const uint32_t* str_lengths, const uint32_t num_of_str);
 
   // Repeat the given string a given number of times
   static StrWithLen Repeat(executor::ExecutorContext &ctx, const char *str,
