@@ -47,10 +47,10 @@ function install_protobuf3.4.0() {
  DISTRIB=$1 # ubuntu/fedora
  if [ "$DISTRIB" == "ubuntu" ]
  then
-    sudo apt-get --yes --force-yes remove --purge libprotobuf-dev protobuf-compiler
+    apt-get --yes --force-yes remove --purge libprotobuf-dev protobuf-compiler
  elif [ "$DISTRIB" == "fedora" ] 
  then
-    sudo dnf -q remove -y protobuf protobuf-devel protobuf-compiler
+    dnf -q remove -y protobuf protobuf-devel protobuf-compiler
  else 
     echo "Only Ubuntu and Fedora is supported currently!"
     return 0
@@ -58,7 +58,7 @@ function install_protobuf3.4.0() {
  wget -O protobuf-cpp-3.4.0.tar.gz https://github.com/google/protobuf/releases/download/v3.4.0/protobuf-cpp-3.4.0.tar.gz
  tar -xzf protobuf-cpp-3.4.0.tar.gz
  cd protobuf-3.4.0
- ./autogen.sh && ./configure && make -j4 && sudo make install && sudo ldconfig
+ ./autogen.sh && ./configure && make -j4 && make install && ldconfig
  cd ..
  # Cleanup
  rm -rf protobuf-3.4.0 protobuf-cpp-3.4.0.tar.gz
@@ -71,12 +71,12 @@ function install_tf() {
  LinkerConfigCmd=$3
  TARGET_DIRECTORY="/usr/local"
  # Install Tensorflow Python Binary
- sudo -E pip3 install --upgrade ${TFBinaryURL}
+  pip3 install --upgrade ${TFBinaryURL}
 
  # Install C-API
  TFCApiURL="https://storage.googleapis.com/tensorflow/libtensorflow/${TFCApiFile}"
  wget -O $TFCApiFile $TFCApiURL
- sudo tar -C $TARGET_DIRECTORY -xzf $TFCApiFile || true
+ tar -C $TARGET_DIRECTORY -xzf $TFCApiFile || true
  # Configure the Linker
  eval $LinkerConfigCmd
  # Cleanup
@@ -101,15 +101,15 @@ if [ "$DISTRO" = "UBUNTU" ]; then
         fi
 
         if ! grep -q "deb $LLVM_PKG_URL $LLVM_PKG_TARGET" /etc/apt/sources.list; then
-            echo -e "\n# Added by Peloton 'packages.sh' script on $(date)\ndeb $LLVM_PKG_URL $LLVM_PKG_TARGET" | sudo tee -a /etc/apt/sources.list > /dev/null
+            echo -e "\n# Added by Peloton 'packages.sh' script on $(date)\ndeb $LLVM_PKG_URL $LLVM_PKG_TARGET" | tee -a /etc/apt/sources.list > /dev/null
         fi
-        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 15CF4D18AF4F7421
+        apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 15CF4D18AF4F7421
         CMAKE_NAME="cmake3"
     else
         CMAKE_NAME="cmake"
     fi
 
-    sudo apt-get update
+    apt-get update
     FORCE_Y=""
     PKG_CMAKE="cmake"
     PKG_LLVM="llvm-3.7"
@@ -135,8 +135,8 @@ if [ "$DISTRO" = "UBUNTU" ]; then
         TFBinaryURL="https://storage.googleapis.com/tensorflow/linux/${TF_TYPE}/tensorflow-${TF_VERSION}-cp35-cp35m-linux_x86_64.whl"
     fi
     TFCApiFile="libtensorflow-${TF_TYPE}-linux-x86_64-${TF_VERSION}.tar.gz"
-    LinkerConfigCmd="sudo ldconfig"
-    sudo apt-get -q $FORCE_Y --ignore-missing -y install \
+    LinkerConfigCmd="ldconfig"
+    apt-get -q $FORCE_Y --ignore-missing -y install \
         $PKG_CMAKE \
         $PKG_LLVM \
         $PKG_CLANG \
