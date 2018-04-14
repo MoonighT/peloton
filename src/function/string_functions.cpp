@@ -115,22 +115,54 @@ StringFunctions::StrWithLen StringFunctions::Substr(
 }
 
 char* StringFunctions::Upper(
-    executor::ExecutorContext &ctx, const char *str, 
+    UNUSED_ATTRIBUTE executor::ExecutorContext &ctx, const char *str, 
     const uint32_t str_length) {
     auto *pool = ctx.GetPool();
     auto *new_str = reinterpret_cast<char *>(pool->Allocate(str_length));
     for (uint32_t i = 0; i < str_length; i++) {
-        if(str[i] >= 'a' && str[i] <= 'z') 
+        if(str[i] >= 'a' && str[i] <= 'z') {
             new_str[i] = str[i] + 'A' - 'a';
-        else 
+        } else {
             new_str[i] = str[i];
+        }
     } 
+    return new_str;
 }
 
 char* StringFunctions::Lower(
     executor::ExecutorContext &ctx, const char *str, 
     const uint32_t str_length) {
+    auto *pool = ctx.GetPool();
+    auto *new_str = reinterpret_cast<char *>(pool->Allocate(str_length));
+    for (uint32_t i = 0; i < str_length; i++) {
+        if(str[i] >= 'A' && str[i] <= 'Z') {
+            new_str[i] = str[i] + 'a' - 'A';
+        } else {
+            new_str[i] = str[i];
+        }
+    } 
+    return new_str;
+}
 
+StringFunctions::StrWithLen StringFunctions::Concat(executor::ExecutorContext &ctx, 
+        const char **concat_strs,
+        const uint32_t* str_lengths,
+        const uint32_t num_of_str) {
+    // Determine the number of bytes we need
+    uint32_t total_len = 1;
+    for (uint32_t i = 0; i < num_of_str; ++i) {
+        total_len += str_lengths[i] - 1;    
+    }
+    // Allocate new memory
+    auto *pool = ctx.GetPool();
+    auto *new_str = reinterpret_cast<char *>(pool->Allocate(total_len));
+    char *ptr = new_str;
+    for (uint32_t i = 0; i < num_of_str; i++) {
+        PL_MEMCPY(ptr, concat_strs[i], str_lengths[i] - 1);
+        ptr += (str_lengths[i] - 1);
+    }
+    *ptr = '\0';
+    return StringFunctions::StrWithLen{new_str, total_len};
 }
 
 StringFunctions::StrWithLen StringFunctions::Repeat(

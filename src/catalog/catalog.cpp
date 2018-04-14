@@ -29,6 +29,7 @@
 #include "function/date_functions.h"
 #include "function/decimal_functions.h"
 #include "function/old_engine_string_functions.h"
+#include "function/string_functions.h"
 #include "function/timestamp_functions.h"
 #include "index/index_factory.h"
 #include "settings/settings_manager.h"
@@ -997,6 +998,27 @@ void Catalog::InitializeFunctions() {
           type::TypeId::VARCHAR, internal_lang, "Substr",
           function::BuiltInFuncType{OperatorId::Substr,
                                     function::OldEngineStringFunctions::Substr},
+          txn);
+      AddBuiltinFunction(
+          "UPPER",
+          {type::TypeId::VARCHAR, type::TypeId::INTEGER},
+          type::TypeId::VARCHAR, internal_lang, "Upper",
+          function::BuiltInFuncType{OperatorId::Upper,
+                                    function::StringFunctions::Upper},
+          txn);
+      AddBuiltinFunction(
+          "LOWER",
+          {type::TypeId::VARCHAR, type::TypeId::INTEGER, type::TypeId::INTEGER},
+          type::TypeId::VARCHAR, internal_lang, "Lower",
+          function::BuiltInFuncType{OperatorId::Lower,
+                                    function::StringFunctions::Lower},
+          txn);
+      AddBuiltinFunction(
+          "CONCAT",
+          {type::TypeId::VARCHAR, type::TypeId::INTEGER, type::TypeId::INTEGER},
+          type::TypeId::VARCHAR, internal_lang, "Concat",
+          function::BuiltInFuncType{OperatorId::Concat,
+                                    function::StringFunctions::Concat},
           txn);
       AddBuiltinFunction("char_length", {type::TypeId::VARCHAR},
                          type::TypeId::INTEGER, internal_lang, "CharLength",
