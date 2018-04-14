@@ -1000,26 +1000,20 @@ void Catalog::InitializeFunctions() {
                                     function::OldEngineStringFunctions::Substr},
           txn);
       AddBuiltinFunction(
-          "UPPER",
+          "upper",
           {type::TypeId::VARCHAR, type::TypeId::INTEGER},
           type::TypeId::VARCHAR, internal_lang, "Upper",
           function::BuiltInFuncType{OperatorId::Upper,
-                                    function::StringFunctions::Upper},
+                                    function::OldEngineStringFunctions::Upper},
           txn);
       AddBuiltinFunction(
-          "LOWER",
+          "lower",
           {type::TypeId::VARCHAR, type::TypeId::INTEGER, type::TypeId::INTEGER},
           type::TypeId::VARCHAR, internal_lang, "Lower",
           function::BuiltInFuncType{OperatorId::Lower,
-                                    function::StringFunctions::Lower},
+                                    function::OldEngineStringFunctions::Lower},
           txn);
-      AddBuiltinFunction(
-          "CONCAT",
-          {type::TypeId::VARCHAR, type::TypeId::INTEGER, type::TypeId::INTEGER},
-          type::TypeId::VARCHAR, internal_lang, "Concat",
-          function::BuiltInFuncType{OperatorId::Concat,
-                                    function::StringFunctions::Concat},
-          txn);
+      
       AddBuiltinFunction("char_length", {type::TypeId::VARCHAR},
                          type::TypeId::INTEGER, internal_lang, "CharLength",
                          function::BuiltInFuncType{

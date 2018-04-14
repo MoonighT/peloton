@@ -116,7 +116,7 @@ StringFunctions::StrWithLen StringFunctions::Substr(
 
 char* StringFunctions::Upper(
     UNUSED_ATTRIBUTE executor::ExecutorContext &ctx, const char *str, 
-    const uint32_t str_length) {
+    uint32_t str_length) {
     auto *pool = ctx.GetPool();
     auto *new_str = reinterpret_cast<char *>(pool->Allocate(str_length));
     for (uint32_t i = 0; i < str_length; i++) {
@@ -131,7 +131,7 @@ char* StringFunctions::Upper(
 
 char* StringFunctions::Lower(
     executor::ExecutorContext &ctx, const char *str, 
-    const uint32_t str_length) {
+    uint32_t str_length) {
     auto *pool = ctx.GetPool();
     auto *new_str = reinterpret_cast<char *>(pool->Allocate(str_length));
     for (uint32_t i = 0; i < str_length; i++) {
@@ -146,8 +146,8 @@ char* StringFunctions::Lower(
 
 StringFunctions::StrWithLen StringFunctions::Concat(executor::ExecutorContext &ctx, 
         const char **concat_strs,
-        const uint32_t* str_lengths,
-        const uint32_t num_of_str) {
+        uint32_t* str_lengths,
+        uint32_t num_of_str) {
     // Determine the number of bytes we need
     uint32_t total_len = 1;
     for (uint32_t i = 0; i < num_of_str; ++i) {

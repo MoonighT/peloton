@@ -12,6 +12,6 @@ RUN mkdir /build
 WORKDIR /build
 
 COPY packages.sh /build
-#RUN bash /build/packages.sh
+RUN bash /build/packages.sh
 
 CMD ["/bin/bash"]

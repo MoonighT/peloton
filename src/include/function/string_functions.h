@@ -49,10 +49,10 @@ class StringFunctions {
                            const uint32_t str_length);
   // LOWER
   static char* Lower(executor::ExecutorContext &ctx, const char *str,
-                           const uint32_t str_length);
+                           uint32_t str_length);
   // CONCAT
   static StrWithLen Concat(executor::ExecutorContext &ctx, const char **concat_strs,
-                           const uint32_t* str_lengths, const uint32_t num_of_str);
+                           uint32_t* str_lengths, uint32_t num_of_str);
 
   // Repeat the given string a given number of times
   static StrWithLen Repeat(executor::ExecutorContext &ctx, const char *str,
